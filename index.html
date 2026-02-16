@@ -28,6 +28,13 @@
             <span id="author"></span>
         </div>
 
+        <!-- Filter Button -->
+        <div class="filter-container">
+            <button id="open-modal" class="filter-btn">
+                <i class="fas fa-users"></i> Choose General
+            </button>
+        </div>
+
         <!-- Buttons -->
         <div class="button-container">
             <button class="twitter-button" id="twitter" title="Tweet This!">
@@ -39,6 +46,20 @@
             <button id="new-quote">New Quote</button>
         </div>
 
+    </div>
+
+    <!-- Generals Modal -->
+    <div id="general-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Select a General</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div id="generals-grid" class="generals-grid">
+                <!-- Javascript will populate this -->
+            </div>
+            <button id="show-all-btn">Show All Quotes</button>
+        </div>
     </div>
 
     <!-- Loader (3D Dots) moved outside to maintain visibility -->
