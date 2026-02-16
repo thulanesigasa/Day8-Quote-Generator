@@ -6,10 +6,13 @@ const newQuoteBtn = document.getElementById('new-quote');
 const copyBtn = document.getElementById('copy');
 const loader = document.getElementById('loader');
 
+// Global Array to store quotes
+let localQuotes = [];
+
 // Show Loading
 function showLoadingSpinner() {
     loader.hidden = false;
-    loader.style.display = 'flex'; // Flex is needed for the bars
+    loader.style.display = 'block'; // Block is needed for the 3D dots container
     quoteContainer.hidden = true;
 }
 
@@ -22,84 +25,28 @@ function removeLoadingSpinner() {
     }
 }
 
-const localQuotes = [
-    {
-        text: "The Holy Spirit is the greatest reality in the world.",
-        author: "Kathryn Kuhlman"
-    },
-    {
-        text: "I am not moved by what I see. I am not moved by what I feel. I am moved only by what I believe.",
-        author: "Smith Wigglesworth"
-    },
-    {
-        text: "If your faith says yes, God cannot say no.",
-        author: "Benson Idahosa"
-    },
-    {
-        text: "God has given us two hands, one to receive with and the other to give with.",
-        author: "Billy Graham"
-    },
-    {
-        text: "Your dream is your ticket to your future.",
-        author: "Uma Ukpai"
-    },
-    {
-        text: "Success is impacting the world with the investment of your personality.",
-        author: "Chris Oyakhilome"
-    },
-    {
-        text: "Money is a servant, not a master.",
-        author: "Uebert Angel"
-    },
-    {
-        text: "Grace is not the license to sin but the power to overcome it.",
-        author: "Shepherd Bushiri"
-    },
-    {
-        text: "Intimacy with God is the womb that births destiny.",
-        author: "Michael Orokpo"
-    },
-    {
-        text: "Faith is the currency of the Kingdom.",
-        author: "Benson Idahosa"
-    },
-    {
-        text: "Great faith is the product of great fights. Great testimonies are the results of great tests.",
-        author: "Smith Wigglesworth"
-    },
-    {
-        text: "There is no limit to what God can do in your life.",
-        author: "Kathryn Kuhlman"
-    },
-    {
-        text: "When you work, you work. But when you pray, God works.",
-        author: "Billy Graham"
-    },
-    {
-        text: "You can change your world by changing your words.",
-        author: "Chris Oyakhilome"
-    },
-    {
-        text: "The anointing you respect is the anointing you attract.",
-        author: "Mike Murdock"
-    },
-    {
-        text: "Your mindset determines your outcome.",
-        author: "Uebert Angel"
-    },
-    {
-        text: "The secret of men are in their stories.",
-        author: "Michael Orokpo"
+// Fetch Quotes from JSON file
+async function loadQuotes() {
+    showLoadingSpinner();
+    try {
+        const response = await fetch('quotes.json');
+        localQuotes = await response.json();
+        newQuote();
+    } catch (error) {
+        console.error("Failed to load quotes:", error);
+        // Fallback
+        localQuotes = [{ text: "Faith is the substance of things hoped for.", author: "Hebrews 11:1" }];
+        newQuote();
     }
-];
+}
 
-// Get Quote from Local Array
-function getQuote() {
+// Get Random Quote
+function newQuote() {
     showLoadingSpinner();
 
-    // Simulate network delay for effect (optional, or just remove loading instantly)
+    // Artificial Delay to show the loading animation (e.g., 1000ms = 1 second)
     setTimeout(() => {
-        // Pick a random quote from localQuotes array
+        // Pick a random quote
         const randomQuote = localQuotes[Math.floor(Math.random() * localQuotes.length)];
 
         // Check format
@@ -117,7 +64,7 @@ function getQuote() {
 
         quoteText.innerText = randomQuote.text;
         removeLoadingSpinner();
-    }, 500); // 500ms delay for smooth transition
+    }, 800); // Adjustable delay
 }
 
 // Tweet Quote
@@ -150,9 +97,9 @@ function copyToClipboard() {
 }
 
 // Event Listeners
-newQuoteBtn.addEventListener('click', getQuote);
+newQuoteBtn.addEventListener('click', newQuote);
 twitterBtn.addEventListener('click', tweetQuote);
 copyBtn.addEventListener('click', copyToClipboard);
 
 // On Load
-getQuote();
+loadQuotes();
